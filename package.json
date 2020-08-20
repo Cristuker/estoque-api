@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --inspect=0.0.0.0 src/server.js"
+    "dev": "docker container start materials && nodemon --inspect=0.0.0.0 src/server.js",
+    "sequelize": "npx sequelize-cli"
   },
   "repository": {
     "type": "git",
