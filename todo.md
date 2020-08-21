@@ -7,7 +7,7 @@
 - [x] Usuários
   - [x] Criar a rota de usuários
   - [x] Criar tabela de usuários
-  - [ ] Autenticação
+  - [x] Autenticação
   - [x] Hash dos passwords
 
 * [ ] Materiais
