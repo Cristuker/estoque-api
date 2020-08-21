@@ -60,7 +60,7 @@ $ npx sequelize-cli db:migrate
 - Sucrase
 - dotenv
 
-# Documentação
+# 📔 Documentação
 
 > Soon...
 
