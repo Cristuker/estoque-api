@@ -12,7 +12,7 @@
 
 * [ ] Materiais
 
-  - [ ] Adicionar materiais
+  - [x] Adicionar materiais
   - [ ] Pegar materiais
   - [ ] Atualizar materiais
 
