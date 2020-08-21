@@ -1,6 +1,6 @@
 # 📦 Estoque-api
 
-<p aligin="center" style="width: 200px;">
+<p align="center" style="width: 200px;">
     <img src="./.github/assets/controle-de-estoque.png" alt="Logo">
 </p>
 
@@ -17,7 +17,7 @@ Uma api criada para gerenciar estoque de uma padaria
 
 </div>
 
-<p aligin="center">
+<p align="center">
     <img src="./.github/assets/Estoque.png" alt="Esquema">
 </p>
 
