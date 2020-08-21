@@ -2,10 +2,9 @@
   "name": "estoque-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "docker container start materials && nodemon --inspect=0.0.0.0 src/server.js",
-    "sequelize": "npx sequelize-cli"
+    "dev": "docker container start materials && nodemon --inspect=0.0.0.0 src/server.js"
   },
   "repository": {
     "type": "git",
