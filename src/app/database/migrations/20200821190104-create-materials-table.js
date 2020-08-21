@@ -14,7 +14,7 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
+        unique: false,
       },
       user_id: {
         type: Sequelize.INTEGER,
