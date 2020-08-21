@@ -1,21 +1,21 @@
 # Todo
 
--   [ ] Base da API
+- [x] Base da API
 
-    -   [ ] Criar api com express
+  - [x] Criar api com express
 
--   [ ] Usuários
-    -   [ ] Criar a rota de usuários
-    -   [ ] Criar tabela de usuários
-    -   [ ] Autenticação
-    -   [ ] Hash dos passwords
+- [x] Usuários
+  - [x] Criar a rota de usuários
+  - [x] Criar tabela de usuários
+  - [ ] Autenticação
+  - [x] Hash dos passwords
 
-*   [ ] Materiais
+* [ ] Materiais
 
-    -   [ ] Adicionar materiais
-    -   [ ] Pegar materiais
-    -   [ ] Atualizar materiais
+  - [ ] Adicionar materiais
+  - [ ] Pegar materiais
+  - [ ] Atualizar materiais
 
-*   [ ] History(Requests)
-    -   [ ] Salvar os puts do padeiro
-    -   [ ] Pegar todas as requests do padeiro em especifico
+* [ ] History(Requests)
+  - [ ] Salvar os puts do padeiro
+  - [ ] Pegar todas as requests do padeiro em especifico
