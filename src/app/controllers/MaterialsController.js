@@ -38,39 +38,43 @@ class MaterialsController {
   }
 
   async index(request, response) {
-    console.log(request.query);
-    const { name } = request.query;
+    try {
+      const { name } = request.query;
 
-    if (!name) {
-      return response
-        .status(406)
-        .send({ message: 'The request query is not valid, check the params' });
-    }
+      if (!name) {
+        return response.status(406).send({
+          message: 'The request query is not valid, check the params',
+        });
+      }
 
-    const result = await Materials.findAll({
-      where: { name: { [Op.like]: `%${name}%` } },
-      raw: true,
-    });
-
-    const formatedResult = [];
-    for (const material of result) {
-      console.log('map');
-      console.log(material);
-      // eslint-disable-next-line no-await-in-loop
-      const userData = await Users.findOne({
-        where: { id: material.user_id },
+      const result = await Materials.findAll({
+        where: { name: { [Op.like]: `%${name}%` } },
         raw: true,
       });
 
-      delete userData.password_hash;
-      delete userData.created_at;
-      delete userData.updated_at;
+      const formatedResult = [];
+      for (const material of result) {
+        console.log('map');
+        console.log(material);
+        // eslint-disable-next-line no-await-in-loop
+        const userData = await Users.findOne({
+          where: { id: material.user_id },
+          raw: true,
+        });
 
-      console.log(userData);
-      formatedResult.push({ ...material, user: userData });
+        delete userData.password_hash;
+        delete userData.created_at;
+        delete userData.updated_at;
+
+        console.log(userData);
+        formatedResult.push({ ...material, user: userData });
+      }
+
+      return response.send(formatedResult);
+    } catch (error) {
+      console.error(error);
+      return response.status(500).send({ message: 'Internal server error' });
     }
-
-    return response.send(formatedResult);
   }
 }
 
