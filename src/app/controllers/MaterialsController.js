@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
-import { Materials, Users } from '../models';
+import { Materials, Users, Histories } from '../models';
 
 class MaterialsController {
   async store(request, response) {
@@ -106,10 +106,10 @@ class MaterialsController {
           .send({ message: 'The request body is not valid, check the params' });
       }
 
-      const { id } = request.params;
+      const { id: materialId } = request.params;
 
       const existsMaterial = await Materials.findOne({
-        where: { id },
+        where: { id: materialId },
         raw: true,
       });
 
@@ -119,15 +119,37 @@ class MaterialsController {
         });
       }
 
-      const { role } = await Users.findOne({ where: { id: request.userId } });
+      const { role, name: userName } = await Users.findOne({
+        where: { id: request.userId },
+      });
 
       if (role === 'Estoquista') {
         return response
           .status(401)
           .send({ message: 'This role do have permission for this action' });
       }
+      const { name, quantity, user_id } = request.body;
+      const { role: bakerRole } = await Users.findOne({
+        where: { id: user_id },
+      });
 
-      const result = await Materials.update(request.body, { where: { id } });
+      if (bakerRole === 'Estoquista') {
+        return response.status(401).send({
+          message: 'This role of this user id dont cant update materials',
+        });
+      }
+
+      await Histories.create({
+        name: userName,
+        quantity,
+        user_id,
+        createdByUser: request.userId,
+      });
+
+      const result = await Materials.update(
+        { name, quantity, user_id },
+        { where: { id: materialId } }
+      );
 
       if (!result) {
         return response.status(400).send({

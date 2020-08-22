@@ -17,5 +17,5 @@
   - [x] Atualizar materiais
 
 * [ ] History(Requests)
-  - [ ] Salvar os puts do padeiro
+  - [x] Salvar os puts do padeiro
   - [ ] Pegar todas as requests do padeiro em especifico
