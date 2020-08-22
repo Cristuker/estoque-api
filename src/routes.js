@@ -16,4 +16,6 @@ routes.use(auth);
 
 routes.post('/rawMaterials', MaterialsController.store);
 
+routes.get('/rawMaterials', MaterialsController.index);
+
 export default routes;

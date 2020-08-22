@@ -13,7 +13,7 @@
 * [ ] Materiais
 
   - [x] Adicionar materiais
-  - [ ] Pegar materiais
+  - [x] Pegar materiais
   - [ ] Atualizar materiais
 
 * [ ] History(Requests)
