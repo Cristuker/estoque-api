@@ -24,6 +24,17 @@ class MaterialsController {
           .send({ message: 'The quantity should be more than 0' });
       }
 
+      const { role } = await Users.findOne({
+        where: { id: user_id },
+        raw: true,
+      });
+
+      if (role !== 'Estoquista') {
+        return response
+          .status(401)
+          .send({ message: 'This role do have permission for this action' });
+      }
+
       const result = await Materials.create({
         name,
         quantity,
@@ -52,10 +63,16 @@ class MaterialsController {
         raw: true,
       });
 
+      const { role } = await Users.findOne({ where: { id: request.userId } });
+
+      if (role === 'Estoquista') {
+        return response
+          .status(401)
+          .send({ message: 'This role do have permission for this action' });
+      }
+
       const formatedResult = [];
       for (const material of result) {
-        console.log('map');
-        console.log(material);
         // eslint-disable-next-line no-await-in-loop
         const userData = await Users.findOne({
           where: { id: material.user_id },
@@ -66,7 +83,6 @@ class MaterialsController {
         delete userData.created_at;
         delete userData.updated_at;
 
-        console.log(userData);
         formatedResult.push({ ...material, user: userData });
       }
 
@@ -101,6 +117,14 @@ class MaterialsController {
         return response.status(404).send({
           message: 'The request params is not valid, materil dont exists',
         });
+      }
+
+      const { role } = await Users.findOne({ where: { id: request.userId } });
+
+      if (role === 'Estoquista') {
+        return response
+          .status(401)
+          .send({ message: 'This role do have permission for this action' });
       }
 
       const result = await Materials.update(request.body, { where: { id } });
