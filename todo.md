@@ -10,11 +10,11 @@
   - [x] Autenticação
   - [x] Hash dos passwords
 
-* [ ] Materiais
+* [x] Materiais
 
   - [x] Adicionar materiais
   - [x] Pegar materiais
-  - [ ] Atualizar materiais
+  - [x] Atualizar materiais
 
 * [ ] History(Requests)
   - [ ] Salvar os puts do padeiro

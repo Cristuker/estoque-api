@@ -76,6 +76,50 @@ class MaterialsController {
       return response.status(500).send({ message: 'Internal server error' });
     }
   }
+
+  async update(request, response) {
+    try {
+      const schema = Yup.object({
+        quantity: Yup.number().required(),
+        user_id: Yup.number().required(),
+      });
+
+      if (!(await schema.isValid(request.body))) {
+        return response
+          .status(406)
+          .send({ message: 'The request body is not valid, check the params' });
+      }
+
+      const { id } = request.params;
+
+      const existsMaterial = await Materials.findOne({
+        where: { id },
+        raw: true,
+      });
+
+      if (!existsMaterial) {
+        return response.status(404).send({
+          message: 'The request params is not valid, materil dont exists',
+        });
+      }
+
+      const result = await Materials.update(request.body, { where: { id } });
+
+      if (!result) {
+        return response.status(400).send({
+          message: 'Error on update material',
+        });
+      }
+
+      console.log(result);
+      return response
+        .status(202)
+        .send({ message: 'Material updated whit success' });
+    } catch (error) {
+      console.error(error);
+      return response.status(500).send({ message: 'Internal server error' });
+    }
+  }
 }
 
 export default new MaterialsController();

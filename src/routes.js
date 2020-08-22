@@ -18,4 +18,6 @@ routes.post('/rawMaterials', MaterialsController.store);
 
 routes.get('/rawMaterials', MaterialsController.index);
 
+routes.put('/rawMaterials/:id/request', MaterialsController.update);
+
 export default routes;
