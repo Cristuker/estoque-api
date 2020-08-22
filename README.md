@@ -64,6 +64,8 @@ $ npx sequelize-cli db:migrate
 
 > Soon...
 
+> O userId é retirado do request quando o decode do token é feito
+
 > Esse projeto usa o padrão de [convetional commits](https://github.com/conventional-changelog/commitlint)
 
 <p align="center">Made whit ❤️ by <strong><a href="http://linkedin.com/in/cristian-silva-dev" target="blank" >Cristian</></p></strong>

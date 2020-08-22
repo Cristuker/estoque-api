@@ -17,5 +17,8 @@
   - [x] Atualizar materiais
 
 * [x] History(Requests)
+
   - [x] Salvar os puts do padeiro
   - [x] Pegar todas as requests do padeiro em especifico
+
+* [x] Refatorar permissões por role

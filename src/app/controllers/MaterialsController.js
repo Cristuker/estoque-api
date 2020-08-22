@@ -8,7 +8,6 @@ class MaterialsController {
       const schema = Yup.object({
         name: Yup.string().required().min(2),
         quantity: Yup.number().required(),
-        user_id: Yup.number().required(),
       });
 
       if (!(await schema.isValid(request.body))) {
@@ -16,8 +15,8 @@ class MaterialsController {
           .status(406)
           .send({ message: 'The request body is not valid, check the params' });
       }
-      const { name, quantity, user_id } = request.body;
-
+      const { name, quantity } = request.body;
+      const { userId } = request;
       if (quantity <= 0) {
         return response
           .status(400)
@@ -25,7 +24,7 @@ class MaterialsController {
       }
 
       const { role } = await Users.findOne({
-        where: { id: user_id },
+        where: { id: userId },
         raw: true,
       });
 
@@ -35,10 +34,23 @@ class MaterialsController {
           .send({ message: 'This role do have permission for this action' });
       }
 
+      const iHaveThisMaterial = await Materials.findOne({
+        where: { name },
+        raw: true,
+      });
+
+      if (iHaveThisMaterial) {
+        return response.status(401).send({
+          message: 'This material already exists!',
+          materialInfo: iHaveThisMaterial,
+        });
+      }
+
+      console.log(iHaveThisMaterial);
       const result = await Materials.create({
         name,
         quantity,
-        user_id,
+        user_id: userId,
       });
 
       return response.status(201).send(result);
@@ -50,6 +62,7 @@ class MaterialsController {
 
   async index(request, response) {
     try {
+      // Verificações
       const { name, user } = request.query;
 
       const iHaveNameAndUserQueryParams = !!name && user;
@@ -68,26 +81,48 @@ class MaterialsController {
         });
       }
 
-      if (user) {
-        const userHistory = await Histories.findAll({
-          where: { name: { [Op.like]: `%${user}%` } },
-          raw: true,
-        });
-        return response.send(userHistory);
-      }
-
-      const result = await Materials.findAll({
-        where: { name: { [Op.like]: `%${name}%` } },
-        raw: true,
-      });
-
-      const { role } = await Users.findOne({ where: { id: request.userId } });
+      const { userId } = request;
+      const { role } = await Users.findOne({ where: { id: userId } });
+      console.log(role);
 
       if (role === 'Estoquista') {
         return response
           .status(401)
           .send({ message: 'This role do have permission for this action' });
       }
+
+      // Pesquisar history dos materiais
+
+      if (user) {
+        if (role === 'Padeiro') {
+          return response
+            .status(401)
+            .send({ message: 'This role do have permission for this action' });
+        }
+        const searchedUser = await Users.findOne({
+          where: { name: user },
+          raw: true,
+        });
+
+        if (!searchedUser) {
+          return response
+            .status(404)
+            .send({ message: 'User not found, check the query params' });
+        }
+        const { id: userHistoryId } = searchedUser;
+
+        const userHistory = await Histories.findAll({
+          where: { user_id: userHistoryId },
+          raw: true,
+        });
+        return response.send(userHistory);
+      }
+
+      // Pesquisar materiais
+      const result = await Materials.findAll({
+        where: { name: { [Op.like]: `%${name}%` } },
+        raw: true,
+      });
 
       const formatedResult = [];
       for (const material of result) {
@@ -101,7 +136,7 @@ class MaterialsController {
         delete userData.created_at;
         delete userData.updated_at;
 
-        formatedResult.push({ ...material, user: userData });
+        formatedResult.push({ ...material, lastUpdatedBy: userData });
       }
 
       return response.send(formatedResult);
@@ -115,13 +150,23 @@ class MaterialsController {
     try {
       const schema = Yup.object({
         quantity: Yup.number().required(),
-        user_id: Yup.number().required(),
       });
 
       if (!(await schema.isValid(request.body))) {
         return response
           .status(406)
           .send({ message: 'The request body is not valid, check the params' });
+      }
+      const { userId } = request;
+
+      const { role } = await Users.findOne({
+        where: { id: userId },
+      });
+
+      if (role === 'Estoquista') {
+        return response
+          .status(401)
+          .send({ message: 'This role do have permission for this action' });
       }
 
       const { id: materialId } = request.params;
@@ -137,35 +182,17 @@ class MaterialsController {
         });
       }
 
-      const { role } = await Users.findOne({
-        where: { id: request.userId },
-      });
-
-      if (role === 'Estoquista') {
-        return response
-          .status(401)
-          .send({ message: 'This role do have permission for this action' });
-      }
-      const { name, quantity, user_id } = request.body;
-      const { role: bakerRole } = await Users.findOne({
-        where: { id: user_id },
-      });
-
-      if (bakerRole === 'Estoquista') {
-        return response.status(401).send({
-          message: 'This role of this user id dont cant update materials',
-        });
-      }
+      const { name, quantity } = request.body;
 
       await Histories.create({
         name: existsMaterial.name,
         quantity,
-        user_id,
-        createdByUser: request.userId,
+        user_id: userId,
+        material_id: materialId,
       });
 
       const result = await Materials.update(
-        { name, quantity, user_id },
+        { name, quantity, user_id: userId },
         { where: { id: materialId } }
       );
 
@@ -175,7 +202,6 @@ class MaterialsController {
         });
       }
 
-      console.log(result);
       return response
         .status(202)
         .send({ message: 'Material updated whit success' });

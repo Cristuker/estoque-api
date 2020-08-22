@@ -7,7 +7,7 @@ class Histories extends Model {
         name: Sequelize.STRING,
         quantity: Sequelize.INTEGER,
         user_id: Sequelize.INTEGER,
-        createdByUser: Sequelize.INTEGER,
+        material_id: Sequelize.INTEGER,
       },
       {
         sequelize,
