@@ -50,12 +50,30 @@ class MaterialsController {
 
   async index(request, response) {
     try {
-      const { name } = request.query;
+      const { name, user } = request.query;
 
-      if (!name) {
-        return response.status(406).send({
-          message: 'The request query is not valid, check the params',
+      const iHaveNameAndUserQueryParams = !!name && user;
+
+      if (iHaveNameAndUserQueryParams) {
+        return response.status(403).send({
+          message: 'You dont can send user and name params in the same request',
         });
+      }
+
+      const ifDontHaveAnyQueryParams = !!name || user;
+
+      if (!ifDontHaveAnyQueryParams) {
+        return response.status(406).send({
+          message: 'The request query is not valid, check the query params',
+        });
+      }
+
+      if (user) {
+        const userHistory = await Histories.findAll({
+          where: { name: { [Op.like]: `%${user}%` } },
+          raw: true,
+        });
+        return response.send(userHistory);
       }
 
       const result = await Materials.findAll({
@@ -119,7 +137,7 @@ class MaterialsController {
         });
       }
 
-      const { role, name: userName } = await Users.findOne({
+      const { role } = await Users.findOne({
         where: { id: request.userId },
       });
 
@@ -140,7 +158,7 @@ class MaterialsController {
       }
 
       await Histories.create({
-        name: userName,
+        name: existsMaterial.name,
         quantity,
         user_id,
         createdByUser: request.userId,
