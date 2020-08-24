@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import { resolve } from 'path';
 import {
   UserController,
   LoginController,
@@ -6,7 +9,12 @@ import {
 } from './app/controllers';
 import auth from './app/middlewares/tokenValidation';
 
+const swaggerDocument = YAML.load(resolve('src', 'docs', 'swagger.yaml'));
+
 const routes = Router();
+
+routes.use('/api-docs', swaggerUi.serve);
+routes.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 routes.post('/users', UserController.store);
 

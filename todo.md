@@ -22,3 +22,5 @@
   - [x] Pegar todas as requests do padeiro em especifico
 
 * [x] Refatorar permissões por role
+
+* [ ] Documentar as rotas
