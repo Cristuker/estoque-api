@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "docker container start materials && nodemon --inspect=0.0.0.0 src/server.js"
+    "dev": "nodemon --inspect=0.0.0.0 src/server.js"
   },
   "repository": {
     "type": "git",
