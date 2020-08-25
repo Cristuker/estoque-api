@@ -23,4 +23,5 @@
 
 * [x] Refatorar permissões por role
 
-* [ ] Documentar as rotas
+* [x] Documentar as rotas
+* [x] Colocar em PRD
