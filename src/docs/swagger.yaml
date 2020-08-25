@@ -15,7 +15,7 @@ tags:
   - name: 'Materials'
     description: 'Control your materials'
     externalDocs:
-      description: 'Find out more'
+      description: 'Consult the permissions of the routes / roles so you can use'
       url: 'https://github.com/Cristuker/estoque-api'
   - name: 'Users'
     description: 'Create users to acess the api'
