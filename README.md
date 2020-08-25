@@ -59,12 +59,12 @@ $ npx sequelize-cli db:migrate
 - Nodemon
 - Sucrase
 - dotenv
+- Swagger-ui-express
+- yamljs
 
 # 📔 Documentação
 
-> Soon...
-
-> O userId é retirado do request quando o decode do token é feito
+A documentação está disponivel em http://localhost:3333/api-docs feita com swagger
 
 > Esse projeto usa o padrão de [convetional commits](https://github.com/conventional-changelog/commitlint)
 
