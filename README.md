@@ -8,12 +8,17 @@ Uma api criada para gerenciar estoque de uma padaria
 
 <div style="display: flex; flex-direction: row; " >
 
-![GitHub last commit](https://img.shields.io/github/last-commit/cristuker/estoque-api?color=%238257e5&style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/cristuker/estoque-api?color=orange&style=flat-square)
 &nbsp;
-![GitHub top language](https://img.shields.io/github/languages/top/cristuker/estoque-api?color=%238257e5&style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/cristuker/estoque-api?color=orange&style=flat-square)
 &nbsp;
-![GitHub repo size](https://img.shields.io/github/repo-size/cristuker/estoque-api?color=%238257e5&style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/cristuker/estoque-api?color=orange&style=flat-square)
 &nbsp;
+![GitHub deployments](https://img.shields.io/github/deployments/cristuker/estoque-api/estoque-api-cris?color=orange&label=deploy%20status&style=flat-square)
+&nbsp;
+![GitHub deploy plataform](https://img.shields.io/badge/deploy%20in-heroku-orange?&style=flat-square)
+&nbsp;
+![Status](https://img.shields.io/badge/status-finished-orange?&style=flat-square)
 
 </div>
 
@@ -31,6 +36,12 @@ Uma api criada para gerenciar estoque de uma padaria
 # ▶ Como rodar
 
 ```
+# Clone this repo
+$ git clone https://github.com/Cristuker/estoque-api.git
+
+# Acess folder
+$ cd estoque-api
+
 # To create a postgres container
 $ docker container run --name materials -e POSTGRES_PASSWORD=materials123 -p 5432:5432 -d postgres
 
@@ -64,7 +75,11 @@ $ npx sequelize-cli db:migrate
 
 # 📔 Documentação
 
-A documentação está disponivel em http://localhost:3333/api-docs feita com swagger
+Essa API foi documentanda usando o Swagger
+
+<a href="https://estoque-api-cris.herokuapp.com/api-docs/" target="_blank">Documentação</a>
+
+#
 
 > Esse projeto usa o padrão de [convetional commits](https://github.com/conventional-changelog/commitlint)
 
