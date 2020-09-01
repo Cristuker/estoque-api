@@ -14,6 +14,7 @@ const swaggerDocument = YAML.load(resolve('src', 'docs', 'swagger.yaml'));
 const routes = Router();
 
 routes.use('/api-docs', swaggerUi.serve);
+
 routes.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 routes.post('/users', UserController.store);
